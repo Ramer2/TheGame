@@ -8,13 +8,19 @@ public class UI extends JFrame {
         setTitle("Belgium");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(600, 400));
+        getContentPane().setBackground(Color.DARK_GRAY);
 
-        getContentPane().setLayout(new GridLayout(1, 2, 10, 10));//add 10, 10 for padding of the elements
+        // Set BorderLayout for the content pane
+        getContentPane().setLayout(new BorderLayout());
 
-        Color[] colors = {new Color(252, 186, 3), new Color(235, 64, 52),
-                new Color(50, 168, 82), new Color(66, 135, 245)};
-        getContentPane().add(createLeft(colors));
-        getContentPane().add(createSection(Color.yellow));
+        JPanel leftPanel = createLeftPanel(2500);
+        JPanel rightPanel = createRightPanel(Color.gray);
+
+        // Add the left panel to the center of the content pane with appropriate weight
+        getContentPane().add(leftPanel, BorderLayout.CENTER);
+
+        // Add the right panel to the east side of the content pane with appropriate weight
+        getContentPane().add(rightPanel, BorderLayout.LINE_END);
 
         // Add padding to the content pane
         ((JPanel) getContentPane()).setBorder(new EmptyBorder(10, 10, 10, 10)); // 10 pixels of padding on all sides
@@ -23,26 +29,32 @@ public class UI extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private JPanel createSection(Color color) {
+    private JPanel createRightPanel(Color color) {
         JPanel panel = new JPanel();
         panel.setBackground(color);
 
-        //padding
+        // Set preferred width to roughly 25% of the total width
+        panel.setPreferredSize(new Dimension(getPreferredSize().width / 4, 0));
+
+        // Padding
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         return panel;
     }
 
-    private JPanel createLeft(Color[] colors){
-        JPanel left = new JPanel();
-        left.setLayout(new GridLayout(2, 2, 10, 10));
+    private JPanel createLeftPanel(int num) {
+        JPanel leftPanel = new JPanel();
+        leftPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
+        int size = (int) Math.sqrt(num);
+        leftPanel.setLayout(new GridLayout(size, size, 1, 1));
+        leftPanel.setBackground(Color.DARK_GRAY);
 
-        for(Color color : colors){
+        for (int i = 0; i < num; i++) {
             JPanel panel = new JPanel();
-            panel.setBackground(color);
-            left.add(panel);
+            panel.setBackground(Color.gray);
+            leftPanel.add(panel);
         }
-        return left;
+        return leftPanel;
     }
 
     public static void main(String[] args) {
